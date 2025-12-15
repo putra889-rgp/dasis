@@ -2,7 +2,7 @@
   "versi":2,
   "membangun": [
     {
-      "src":"api/lookup.js",
+      "src":"pages/siswa.js",
       "menggunakan":"@vercel/node"
     }
   ],
