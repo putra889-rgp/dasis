@@ -1,11 +1,15 @@
 {
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "routes": [
+  "versi":2,
+  "membangun": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src":"api/lookup.js",
+      "menggunakan":"@vercel/node"
+    }
+  ],
+  "rute": [
+    {
+      "src":"/pages/siswa",
+      "tujuan":"/pages/siswa.js"
     }
   ]
 }
