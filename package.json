@@ -1,16 +1,10 @@
 {
   "name": "dasis",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "private": true,
-  "description": "API pencarian data siswa SMK Raden Paku (fuzzy search, ready vercel)",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "vercel dev",
+    "start": "vercel start"
   },
-  "dependencies": {
-    "next": "^14.2.8",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  }
+  "dependencies": {}
 }
