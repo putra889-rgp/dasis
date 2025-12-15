@@ -1,4 +1,4 @@
-import siswa from "../../data/siswa.json";
+import siswa from "../datasiswasmkradenpaku.json";
 
 /**
  * Normalisasi teks:
