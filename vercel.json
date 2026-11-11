@@ -1,15 +1,16 @@
+
 {
-  "versi":2,
-  "membangun": [
+  "version": 2,
+  "builds": [
     {
-      "src":"pages/siswa.js",
-      "menggunakan":"@vercel/node"
+      "src": "pages/siswa.js",
+      "use": "@vercel/node"
     }
   ],
-  "rute": [
+  "routes": [
     {
-      "src":"/pages/siswa",
-      "tujuan":"/pages/siswa.js"
+      "src": "/api/siswa",
+      "dest": "/pages/siswa.js"
     }
   ]
 }
