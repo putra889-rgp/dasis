@@ -1,14 +1,10 @@
-// pages/siswa.js
 import fs from 'fs';
 import path from 'path';
 
 const filePath = path.join(process.cwd(), 'datasiswasmkradenpaku.json');
 const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-// Normalisasi: apapun bentuknya (array atau object tunggal), jadikan array
 const siakData = Array.isArray(raw) ? raw : [raw];
 
-// Ambil field case-insensitive (NAMA / nama / Nama)
 function getField(obj, key) {
   if (obj == null) return undefined;
   if (key in obj) return obj[key];
@@ -30,13 +26,11 @@ export default function handler(req, res) {
 
   const needle = nama.toLowerCase();
 
-  // 1) exact match
   let result = siakData.find(item => {
     const n = getField(item, 'nama');
     return typeof n === 'string' && n.toLowerCase() === needle;
   });
 
-  // 2) fallback: partial match
   if (!result) {
     result = siakData.find(item => {
       const n = getField(item, 'nama');
