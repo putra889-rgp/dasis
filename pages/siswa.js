@@ -1,30 +1,52 @@
+// pages/siswa.js
+import fs from 'fs';
+import path from 'path';
 
-import siakData from '../datasiswasmkradenpaku.json';
+const filePath = path.join(process.cwd(), 'datasiswasmkradenpaku.json');
+const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+// Normalisasi: apapun bentuknya (array atau object tunggal), jadikan array
+const siakData = Array.isArray(raw) ? raw : [raw];
+
+// Ambil field case-insensitive (NAMA / nama / Nama)
+function getField(obj, key) {
+  if (obj == null) return undefined;
+  if (key in obj) return obj[key];
+  const found = Object.keys(obj).find(k => k.toLowerCase() === key.toLowerCase());
+  return found ? obj[found] : undefined;
+}
 
 export default function handler(req, res) {
   if (req.method !== 'GET') {
-    return res.status(405).json({
-      error: 'METHOD NOT ALLOWED'
-    });
+    return res.status(405).json({ error: 'METHOD NOT ALLOWED' });
   }
 
-  const nama = (req.query.nama || '').trim();
+  const rawQ = req.query.nama;
+  const nama = (Array.isArray(rawQ) ? rawQ[0] : rawQ || '').trim();
 
   if (!nama) {
-    return res.status(400).json({
-      error: 'NAMA HARUS DIISI'
-    });
+    return res.status(400).json({ error: 'NAMA HARUS DIISI' });
   }
 
-  const result = siakData.find(item =>
-    item.NAMA?.toLowerCase() === nama.toLowerCase()
-  );
+  const needle = nama.toLowerCase();
+
+  // 1) exact match
+  let result = siakData.find(item => {
+    const n = getField(item, 'nama');
+    return typeof n === 'string' && n.toLowerCase() === needle;
+  });
+
+  // 2) fallback: partial match
+  if (!result) {
+    result = siakData.find(item => {
+      const n = getField(item, 'nama');
+      return typeof n === 'string' && n.toLowerCase().includes(needle);
+    });
+  }
 
   if (result) {
     return res.status(200).json(result);
   }
 
-  return res.status(404).json({
-    error: 'NAMA TIDAK DITEMUKAN'
-  });
+  return res.status(404).json({ error: 'NAMA TIDAK DITEMUKAN' });
 }
